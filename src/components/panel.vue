@@ -1,18 +1,34 @@
 <template>
-  <el-upload
-    v-model:file-list="fileList"
-    :multiple="true"
-    :drag="true"
-    action="#"
-    :auto-upload="false"
-    :on-change="handleChange"
-    :before-Upload="beforeUpload"
-    list-type="picture-card"
-    :on-preview="handlePictureCardPreview"
-    :on-remove="handleRemove"
-  >
-    <el-icon><Plus /></el-icon>
-  </el-upload>
+  <el-form :model="form" label-width="120px">
+    <el-form-item label="工具类型"> 长图 合并&&裁剪 </el-form-item>
+    <el-form-item label="图片方向">
+      <el-radio-group v-model="form.resource">
+        <el-radio label="横向" />
+        <el-radio label="竖向" />
+      </el-radio-group>
+    </el-form-item>
+   
+    <el-form-item label="上传">
+      <el-upload
+        v-model:file-list="fileList"
+        :multiple="true"
+        :drag="true"
+        action="#"
+        :auto-upload="false"
+        :on-change="handleChange"
+        :before-Upload="beforeUpload"
+        list-type="picture-card"
+        :on-preview="handlePictureCardPreview"
+        :on-remove="handleRemove"
+      >
+        <el-icon><Plus /></el-icon>
+      </el-upload>
+    </el-form-item>
+     <el-form-item>
+      <el-button type="primary" @click="onSubmit">Create</el-button>
+      <el-button>Cancel</el-button>
+    </el-form-item>
+  </el-form>
 
   <el-dialog v-model="dialogVisible">
     <img class="w-full" :src="dialogImageUrl" alt="Preview Image" />
@@ -30,6 +46,20 @@
     @mouseup="stopDrag" -->
 
 <script lang="ts" setup>
+const form = reactive({
+  name: "",
+  region: "",
+  date1: "",
+  date2: "",
+  delivery: false,
+  type: [],
+  resource: "",
+  desc: "",
+});
+
+const onSubmit = () => {
+  console.log("submit!");
+};
 import { Plus } from "@element-plus/icons-vue";
 
 import type { UploadProps, UploadUserFile } from "element-plus";
@@ -137,7 +167,7 @@ const loadCvs = () => {
       cvsHeight.value += itemH;
       setTimeout(() => {
         ctx.drawImage(image, 0, cy, cvsWidth.value, itemH);
-      },1000);
+      }, 1000);
       console.log("cvsHeight", cvsHeight.value);
     };
   });

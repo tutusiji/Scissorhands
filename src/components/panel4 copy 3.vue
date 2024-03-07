@@ -5,10 +5,10 @@
         ><div class="grid-content ep-bg-purple">
           <el-form :model="form" label-width="120px">
             <el-form-item label="工具类型"> 长图合并&&图片裁剪 </el-form-item>
-            <el-form-item label="裁剪方向">
+            <el-form-item label="合并方向">
               <el-radio-group v-model="form.direction">
-                <el-radio label="横向" value="1" size="large" border />
-                <el-radio label="竖向" value="2" size="large" border />
+                <el-radio label="横向" />
+                <el-radio label="竖向" />
               </el-radio-group>
             </el-form-item>
             <el-form-item label="宽度/高度" class="w-[260px]">
@@ -49,14 +49,14 @@
 
             <!-- <input class="" type="file" multiple @change="handleFileChange" /> -->
           </el-form>
-        </div>
-      </el-col>
+        </div></el-col
+      >
       <el-col :span="12"
         ><div class="grid-content ep-bg-purple-light">
           <el-form-item label="画布">
             <div
               ref="canvasContainer"
-              class="canvas-container min-h-30"
+              class="canvas-container"
               style="position: relative"
             >
               <canvas
@@ -74,15 +74,13 @@
                 style="
                   cursor: pointer;
                   position: absolute;
-                  top: 0;
+                  top: 100px;
                   left: 0;
                   width: 100%;
                   height: 2px;
                   background-color: red;
                 "
-              >
-                <i class="hand"></i>
-              </div>
+              ></div>
             </div>
           </el-form-item></div
       ></el-col>
@@ -95,10 +93,9 @@
 </template>
 
 <script lang="ts" setup>
-/** @type {HTMLCanvasElement} */
 import { Upload } from "@element-plus/icons-vue";
 import type { UploadFile } from "element-plus";
-const fileList = ref<UploadFile[]>([]);
+const fileList = ref<UploadUserFile[]>([]);
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
 // const disabled = ref(false);
@@ -110,7 +107,7 @@ const cropLine = ref<HTMLElement | null>(null);
 const canvasRef = ref<HTMLCanvasElement | null>(null);
 let ctx: CanvasRenderingContext2D | null = null;
 const form = reactive({
-  direction: "1",
+  direction: "",
   whd: 360,
 });
 
@@ -187,19 +184,17 @@ let isDraggingLine = false;
 
 const cropLineY = ref(0); // 裁剪线的y坐标
 
-// 初始化
 onMounted(() => {
-  form.direction = "1";
   const container = canvasContainer.value;
-  const cline = cropLine.value;
-  if (container && cline) {
+  const line = cropLine.value;
+  if (container && line) {
     let isDragging = false;
     let startY = 0;
 
-    cline.style.top = "100px"; // 初始化位置
-    cline.addEventListener("mousedown", (e) => {
+    line.style.top = "0px"; // 初始化位置
+    line.addEventListener("mousedown", (e) => {
       isDragging = true;
-      startY = e.clientY - cline.getBoundingClientRect().top;
+      startY = e.clientY - line.getBoundingClientRect().top;
       e.preventDefault();
     });
 
@@ -209,9 +204,9 @@ onMounted(() => {
         // 限制移动区间
         newY = Math.max(
           0,
-          Math.min(newY, container.offsetHeight - cline.offsetHeight)
+          Math.min(newY, container.offsetHeight - line.offsetHeight)
         );
-        cline.style.top = `${newY}px`;
+        line.style.top = `${newY}px`;
         cropLineY.value = newY; // 更新裁剪线的y坐标
       }
     });
@@ -225,7 +220,6 @@ onMounted(() => {
 // 绘制线条的函数
 const drawLine = () => {
   // ctx.clearRect(0, 0, canvas.width, canvas.height); // 清除画布
-  if (!ctx) return;
   ctx.beginPath();
   ctx.lineWidth = 2; // 设置线条宽度为2px
   ctx.moveTo(line.x1, line.y1);
@@ -247,10 +241,10 @@ const isOnLine = (x: number, y: number) => {
 
 const eventCvs = () => {
   // 处理鼠标按下事件
-  canvasRef.value?.addEventListener(
+  canvasRef.value.addEventListener(
     "mousedown",
     (event: { clientX: number; clientY: number }) => {
-      const rect = canvasRef.value?.getBoundingClientRect();
+      const rect = canvasRef.value.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
 
@@ -405,18 +399,3 @@ const handleMouseUp = () => {
   isDraggingBottom = false;
 };
 </script>
-
-<style lang="scss">
-#crop-line {
-  i {
-    position: absolute;
-    top: -8px;
-    right: -12px;
-    display: block;
-    width: 20px;
-    height: 20px;
-    background: url(../assets/static/cutter.svg) no-repeat center center;
-    background-size: cover;
-  }
-}
-</style>

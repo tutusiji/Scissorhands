@@ -87,8 +87,6 @@
           </el-form-item></div
       ></el-col>
     </el-row>
-    <canvas id="c" class="border ml-30" width="800" height="600"></canvas>
-
     <el-dialog v-model="dialogVisible">
       <img w-full :src="dialogImageUrl" alt="Preview Image" />
     </el-dialog>
@@ -102,11 +100,6 @@ import type { UploadFile } from "element-plus";
 const fileList = ref<UploadFile[]>([]);
 const dialogImageUrl = ref("");
 const dialogVisible = ref(false);
-
-import { fabric } from "fabric";
-import { Canvas, Rect } from "fabric";
-import hand from "./../assets/static/hand.svg";
-
 // const disabled = ref(false);
 
 // const canvasRef = ref(null);
@@ -226,54 +219,6 @@ onMounted(() => {
       isDragging = false;
     });
   }
-
-  const canvas = new fabric.Canvas("c");
-
-  // 加载图片
-  fabric.Image.fromURL(hand, function (oImg) {
-    // 缩放图片至合适大小
-    oImg.scale(0.5).set({
-      left: 150,
-      top: 150,
-      angle: 0, // 初始角度
-      cornerSize: 10, // 控制角大小
-      transparentCorners: false, // 透明角
-      cornerColor: "blue", // 角颜色
-      borderColor: "red", // 边框颜色
-      hasRotatingPoint: true, // 允许旋转
-    });
-
-    // 将图片添加到 canvas 上
-    canvas.add(oImg).setActiveObject(oImg);
-  });
-
-  // 创建矩形
-  const rect = new fabric.Rect({
-    left: 100, // X 坐标
-    top: 100, // Y 坐标
-    fill: "red", // 填充颜色
-    width: 100, // 宽度
-    height: 100, // 高度
-    // 设置控制点的样式，使其可缩放和旋转
-    hasRotatingPoint: true,
-  });
-
-  // 创建圆形
-  const circle = new fabric.Circle({
-    radius: 50, // 半径
-    fill: "blue", // 填充颜色
-    left: 300, // X 坐标
-    top: 150, // Y 坐标
-    // 设置控制点的样式，使其可缩放和旋转
-    hasRotatingPoint: true,
-  });
-
-  // 将形状添加到画布上
-  canvas.add(rect);
-  canvas.add(circle);
-
-  // 渲染画布
-  canvas.renderAll();
 });
 
 // 绘制线条的函数
@@ -431,7 +376,7 @@ const handleMouseMove = (event: MouseEvent) => {
   redrawImages();
 };
 
-// 重新绘制图像
+ // 重新绘制图像
 const redrawImages = () => {
   if (!ctx) return;
   ctx.clearRect(0, 0, canvasRef.value.width, canvasRef.value.height);

@@ -15,9 +15,9 @@ import hand from "./../assets/static/hand.svg";
 onMounted(() => {
   const canvas = new fabric.Canvas("c");
   // 加载图片
-  fabric.Image.fromURL(hand, function (oImg) {
+  fabric.Image.fromURL('https://hkroom.oss-cn-shenzhen.aliyuncs.com/Snipaste_2024-01-24_05-28-56.png', function (oImg) {
     // 缩放图片至合适大小
-    oImg.scale(0.5).set({
+    oImg.scale(1).set({
       left: 550,
       top: 150,
       angle: 0, // 初始角度

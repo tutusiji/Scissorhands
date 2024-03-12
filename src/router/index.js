@@ -12,16 +12,11 @@ const routes = [
     name: "p2",
     component: () => import("../components/canvas.vue"),
   },
-  // {
-  //   path: "/p3",
-  //   name: "p3",
-  //   component: () => import("../components/panel3.vue"),
-  // },
-  // {
-  //   path: "/p4",
-  //   name: "p4",
-  //   component: () => import("../components/panel4.vue"),
-  // },
+  {
+    path: "/p3",
+    name: "p3",
+    component: () => import("../components/threejs.vue"),
+  },
 ];
 export const router = createRouter({
     history: createWebHashHistory(),

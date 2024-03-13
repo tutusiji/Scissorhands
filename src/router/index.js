@@ -17,6 +17,16 @@ const routes = [
     name: "p3",
     component: () => import("../components/threejs.vue"),
   },
+  {
+    path: "/p4",
+    name: "p4",
+    component: () => import("../components/canvas2.vue"),
+  },
+  {
+    path: "/p3-3",
+    name: "p3-3",
+    component: () => import("../components/threejs2.vue"),
+  },
 ];
 export const router = createRouter({
     history: createWebHashHistory(),

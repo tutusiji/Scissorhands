@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Canvas: typeof import('./src/components/canvas.vue')['default']
+    Canvas2: typeof import('./src/components/canvas2.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElDialog: typeof import('element-plus/es')['ElDialog']
@@ -24,5 +25,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Threejs: typeof import('./src/components/threejs.vue')['default']
+    Threejs2: typeof import('./src/components/threejs2.vue')['default']
   }
 }

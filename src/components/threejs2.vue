@@ -32,14 +32,14 @@ onMounted(() => {
 
   // 相机
   camera = new THREE.PerspectiveCamera(
-    90,
+    60,
     container.value.clientWidth / container.value.clientHeight,
-    0.1,
+    1.8,
     1000
   );
-  camera.position.x = 4;
-  camera.position.y = 3;
-  camera.position.z = 3;
+  camera.position.x = 6;
+  camera.position.y = 6;
+  camera.position.z = 5;
 
   // 渲染器
   renderer = new THREE.WebGLRenderer();
@@ -56,34 +56,34 @@ onMounted(() => {
   controls = new OrbitControls(camera, renderer.domElement);
 
   // OBJ 模型加载
-  // const mtlLoader = new MTLLoader();
-  // mtlLoader.load("/model/IronMan.mtl", (materials) => {
-  //   materials.preload();
-  //   const objLoader = new OBJLoader();
-  //   objLoader.setMaterials(materials);
-  //   objLoader.load("/model/IronMan.obj", (object) => {
-  //     object.scale.set(0.02, 0.02, 0.02);
-  //     scene.add(object);
-  //   });
-  // });
+  const mtlLoader = new MTLLoader();
+  mtlLoader.load("./model/IronMan.mtl", (materials) => {
+    materials.preload();
+    const objLoader = new OBJLoader();
+    objLoader.setMaterials(materials);
+    objLoader.load("./model/IronMan.obj", (object) => {
+      object.scale.set(0.02, 0.02, 0.02);
+      scene.add(object);
+    });
+  });
 
   // const loader = new OBJLoader();
-  const loader = new FBXLoader();
-  loader.load(
-    // "/model/Koenigsegg.fbx", // 模型文件路径
-    // "/model/Koenigsegg.obj", // 模型文件路径
-    "./model/Testarossa.fbx", // 模型文件路径
-    (object) => {
-      object.scale.set(0.016, 0.016, 0.016); // 将模型缩小到原来的一半
-      scene.add(object); // 将加载的模型添加到场景中
-    },
-    (xhr) => {
-      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-    },
-    (error) => {
-      console.log("An error happened");
-    }
-  );
+  // const loader = new FBXLoader();
+  // loader.load(
+  //   // "/model/Koenigsegg.fbx", // 模型文件路径
+  //   // "/model/Koenigsegg.obj", // 模型文件路径
+  //   "./model/Testarossa.fbx", // 模型文件路径
+  //   (object) => {
+  //     object.scale.set(0.016, 0.016, 0.016); // 将模型缩小到原来的一半
+  //     scene.add(object); // 将加载的模型添加到场景中
+  //   },
+  //   (xhr) => {
+  //     console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+  //   },
+  //   (error) => {
+  //     console.log("An error happened");
+  //   }
+  // );
 
   // 添加光源
   // const light = new THREE.PointLight(0xffffff, 10);
